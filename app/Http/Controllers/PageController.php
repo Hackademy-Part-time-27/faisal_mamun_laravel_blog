@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Article;
 
 class PageController extends Controller
 {
@@ -18,25 +19,16 @@ class PageController extends Controller
             'descrizione' => 'Sono un giornalista fidati'
         ]);
     }
+    
     public function articles()
     {
-        $articles=[
-            ['title' => 'i vaccini fanno male?', 'category' => 'Fake medicina', 'descrizione' => 'SI!'],
-            ['title' => 'la terra è piatta?', 'category' => 'Fake scienza', 'descrizione' => 'SI!'],
-            ['title' => 'esistevano i giganti?', 'category' => 'Fake storia', 'descrizione' => 'SI!'], 
-        ];
-        return view('articles', [ 'articles' => $articles ]);
+        $articles = Article::where('visible', true)->get();
+
+        return view('articles', ['articles' => $articles]);
     }
-    public function article($article)
+
+    public function article(Article $article)
     {
-        $index = $article;
-
-        $articles=[
-            ['title' => 'i vaccini fanno male?', 'category' => 'Fake medicina', 'descrizione' => 'SI!'],
-            ['title' => 'la terra è piatta?', 'category' => 'Fake scienza', 'descrizione' => 'SI!'],
-            ['title' => 'esistevano i giganti?', 'category' => 'Fake storia', 'descrizione' => 'SI!'], 
-        ];
-
-        return view('article', [ 'article' => $articles[$index]]);
+        return view('article', ['article' => $article]);
     }
 }

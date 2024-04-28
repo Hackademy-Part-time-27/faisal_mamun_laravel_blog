@@ -1,12 +1,10 @@
-<div>
-    @if($articles)
-        <ul>
-            @foreach ($articles as $index => $article)
-                <li><a href=" {{ route ('article', $index)}} "> {{ $article['title'] }} </a></li>
-            @endforeach
-        </ul>
-    @else
-    <p>non ci sono articoli</p>
-    @endif
-        
-  </div>
+<article class="card mb-2">
+    <div class="card-body">
+        <span>{{ $category }}</span>
+        <h4>{{ $title }}</h4>
+        <p>{{ $description }}</p>
+        <div class="text-end">
+            <a class="stretched-link" href="{{ $route }}">Leggi...</a>
+        </div>
+    </div>
+</article>

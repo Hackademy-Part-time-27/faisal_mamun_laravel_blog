@@ -2,35 +2,41 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreArticleRequest;
 use Illuminate\Http\Request;
 
 use App\Models\Article;
 
 class ArticleController extends Controller
 {
+    public function index()
+    {
+        return view('articles.index', ['articles' => Article::all()]);
+    }
+
     public function create()
     {
-   
-        Article::create([
-            'title' => 'i vaccini fanno male',
-            'category' => 'fake medicina' ,
-            'description' => 'si',
-        ]);
+        return view('articles.create');
+    }
 
-        Article::create([
-            'title' => 'la terra è piatta?',
-            'category' => 'fake astronomia' ,
-            'description' => 'si',
-        ]);
+    public function store(StoreArticleRequest $request)
+    {
+        $article = Article::create($request->all());
+        if($request->hasFile('image') && $request->file('image')->isValid()) {
+            
+            $extension = $request->file('image')->extension();
 
-        Article::create([
-            'title' => 'esistevano i giganti?',
-            'category' => 'fake storia' ,
-            'description' => 'si',
-        ]);
+            $fileName = 'image.' . $extension;
 
+            $fileName = $request->file('image')->getClientOriginalName();
+
+            $fileName = uniqid('image_') . '.' . $extension;
+            $article->image = $request->file('image')->storeAs('public/images/' . $article->id, $fileName);
+
+            $article->save();
+
+        }
+
+        return redirect()->route('articles.index')->with(['success' => 'Articolo creato correttamente!']);
     }
 }
-/* ['title' => 'i vaccini fanno male?', 'category' => 'Fake medicina', 'descrizione' => 'SI!'],
-            ['title' => 'la terra è piatta?', 'category' => 'Fake scienza', 'descrizione' => 'SI!'],
-            ['title' => 'esistevano i giganti?', 'category' => 'Fake storia', 'descrizione' => 'SI!'], */

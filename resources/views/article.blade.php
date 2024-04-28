@@ -1,9 +1,9 @@
 <x-layout>
-  <article class="card mb-2">
-    <div class="card-body">
-      <h1> {{ $article['title'] }} </h1>
-      <p> {{  $article ['category'] }} </p>
-      <h2> {{ $article ['descrizione']}}</h2>
-    </div>
-  </article>
+    <h1 class="title">{{ $article->title }}</h1>
+
+    <p>{{ $article->description }}</p>
+
+    @if($article->image)
+    <img class="img-fluid" src="{{ Storage::url($article->image) }}" alt="{{ $article->title }}">
+    @endif
 </x-layout>
