@@ -19,9 +19,7 @@
         <li class="nav-item">
           <a class="nav-link" href="{{ route('articles') }}">Articoli</a>
         </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{{ route('articles.index') }}">gestisci articoli</a>
-        </li>
+
       </ul>
       <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
         @auth

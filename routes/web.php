@@ -19,6 +19,12 @@ Route::get('/articoli/create', [ArticleController::class, 'create'])->name('arti
 
 Route::get('/articolo/{article}', [PageController::class, 'article'])->name('article');
 
-Route::get('/account/articles', [ArticleController::class, 'index'])->name('articles.index');
-Route::get('/account/articles/create', [ArticleController::class, 'create'])->name('articles.create');
-Route::post('/account/articles/store', [ArticleController::class, 'store'])->name('articles.store');
+Route::prefix('account')->middleware('auth')->group(function () {
+
+    Route::get('/', [App\Http\Controllers\AccountController::class, 'index'])->name('account.index');
+
+    Route::get('/articles', [ArticleController::class, 'index'])->name('articles.index');
+    Route::get('/articles/create', [ArticleController::class, 'create'])->name('articles.create');
+    Route::post('/articles/store', [ArticleController::class, 'store'])->name('articles.store');
+
+});
