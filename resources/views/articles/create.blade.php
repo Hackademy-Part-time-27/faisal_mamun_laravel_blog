@@ -6,6 +6,16 @@
 
             <x-success />
 
+            {{--
+            @if($errors->any())
+            <ul class="alert alert-danger">
+                @foreach($errors->all() as $error)
+                <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+            @endif
+            --}}
+
             <div class="mt-5">
                 <form action="{{ route('articles.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
@@ -18,8 +28,11 @@
                         </div>
                         <div class="col-12">
                             <label for="category">Categoria</label>
-                            <input type="text" name="category" id="category"
-                                class="form-control @error('category') is-invalid @enderror" maxlength="50" value="{{ old('category') }}">
+                            <select name="category" id="category" class="form-control">
+                                @foreach($categories as $category)
+                                <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                @endforeach
+                            </select>
                             @error('category') <span class="text-danger small fw-bold">{{ $message }}</span> @enderror
                         </div>
                         <div class="col-12">
