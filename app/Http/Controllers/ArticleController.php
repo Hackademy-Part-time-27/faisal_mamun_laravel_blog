@@ -16,12 +16,13 @@ class ArticleController extends Controller
 
     public function create()
     {
-        return view('articles.create');
+        return view('articles.create', ['categories' => \App\Models\Category::all()]);
     }
 
     public function store(StoreArticleRequest $request)
     {
         $article = Article::create($request->all());
+
         if($request->hasFile('image') && $request->file('image')->isValid()) {
             
             $extension = $request->file('image')->extension();
@@ -31,6 +32,7 @@ class ArticleController extends Controller
             $fileName = $request->file('image')->getClientOriginalName();
 
             $fileName = uniqid('image_') . '.' . $extension;
+
             $article->image = $request->file('image')->storeAs('public/images/' . $article->id, $fileName);
 
             $article->save();
